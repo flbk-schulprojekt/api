@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/api/user', [\App\Http\Controllers\UserController::class, 'index'])->name('user.index');
+    Route::get('/users', [\App\Http\Controllers\UserController::class, 'index'])->name('user.index');
 });
 
 require __DIR__.'/auth.php';
