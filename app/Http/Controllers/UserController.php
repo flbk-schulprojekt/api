@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
@@ -18,13 +19,9 @@ class UserController extends Controller
         // Get the total number of users
         $totalUsers = User::count();
 
-        return response()->json([
-            'rows' => $users->items(), // Get the users for the current page
-            'total' => $totalUsers,
-            'current_page' => $users->currentPage(),
-            'per_page' => $users->perPage(),
-            'last_page' => $users->lastPage(),
-        ], 200);
+        return Inertia::render('Users', [
+            'users' => $users
+        ]);
     }
 
 
