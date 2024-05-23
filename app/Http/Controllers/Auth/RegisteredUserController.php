@@ -15,6 +15,7 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
+
     /**
      * Display the registration view.
      */
@@ -40,10 +41,17 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $isFirstUser = User::count() === 0;
+
         $user = User::create([
-            'name' => $request->name,
+            'firstname' => $request->firstname,
+            'lastname' => $request->lastname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'profile_picture' => $request->profile_picture,
+            'gender' => $request->gender,
+            'dob' => $request->dob,
+            'is_admin' => $isFirstUser,
         ]);
 
         event(new Registered($user));
