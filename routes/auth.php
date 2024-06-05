@@ -17,8 +17,6 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    Route::post('register/uploadProfilePicture', [\App\Http\Controllers\ProfileController::class, 'uploadProfilePicture']);
-
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
 

@@ -60,26 +60,4 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
-
-    public function uploadProfilePicture(Request $request): \Illuminate\Http\JsonResponse
-    {
-        // Validate the request
-        $request->validate([
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-
-        // Store the file
-        if ($request->file('profile_picture')) {
-            // Generate a unique name for the file
-            $fileName = time() . '_' . $request->file('profile_picture')->getClientOriginalName();
-
-            // Store the file in the public/profile_pictures directory
-            $filePath = $request->file('profile_picture')->storeAs('profile_pictures', $fileName, 'public');
-
-            // Return the file path or any other response
-            return response()->json(['file_path' => $filePath], 200);
-        }
-
-        return response()->json(['error' => 'File not uploaded'], 400);
-    }
 }

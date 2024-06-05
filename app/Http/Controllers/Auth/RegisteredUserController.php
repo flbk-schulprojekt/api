@@ -15,7 +15,6 @@ use Inertia\Response;
 
 class RegisteredUserController extends Controller
 {
-
     /**
      * Display the registration view.
      */
@@ -32,28 +31,15 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'username' => 'required|string|max:255|unique:user,username',
-            'firstname' => 'required|string|max:255',
-            'lastname' => 'required|string|max:255',
-            'profile_picture' => 'string',
-            'gender' => 'string',
-            'dob' => 'date|date_format:Y-m-d',
+            'name' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $isFirstUser = User::count() === 0;
-
         $user = User::create([
-            'username' => $request->username,
-            'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'profile_picture' => $request->profile_picture,
-            'gender' => $request->gender,
-            'dob' => $request->dob,
-            'is_admin' => $isFirstUser,
         ]);
 
         event(new Registered($user));
@@ -62,5 +48,4 @@ class RegisteredUserController extends Controller
 
         return redirect(route('dashboard', absolute: false));
     }
-
 }
